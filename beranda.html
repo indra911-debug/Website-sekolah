@@ -1,0 +1,406 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SMA Cendekia Bangsa - Sekolah Unggul Berkarakter</title>
+    
+    <!-- Impor Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Impor Google Fonts: Inter -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    
+    <!-- Ikon untuk tab browser -->
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🎓</text></svg>">
+
+    <style>
+        /* Menggunakan font Inter sebagai font utama */
+        body {
+            font-family: 'Inter', sans-serif;
+            scroll-behavior: smooth;
+        }
+
+        /* Styling untuk link navigasi yang aktif */
+        .nav-link.active {
+            color: #1D4ED8; /* biru tua */
+            font-weight: 600;
+            position: relative;
+        }
+
+        .nav-link.active::after {
+            content: '';
+            position: absolute;
+            bottom: -4px;
+            left: 0;
+            width: 100%;
+            height: 2px;
+            background-color: #1D4ED8;
+        }
+
+        /* Efek transisi untuk semua elemen agar lebih halus */
+        * {
+            transition: all 0.2s ease-in-out;
+        }
+        
+        /* Section konten awalnya disembunyikan */
+        .content-section {
+            display: none;
+        }
+    </style>
+</head>
+<body class="bg-gray-50 text-gray-800">
+
+    <!-- HEADER DAN NAVIGASI -->
+    <header class="bg-white shadow-md sticky top-0 z-50">
+        <div class="container mx-auto px-6 py-4 flex justify-between items-center">
+            <!-- Logo dan Nama Sekolah -->
+            <div class="flex items-center space-x-3">
+                <svg class="w-10 h-10 text-blue-700" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+                    <path d="M12 18.375a6.375 6.375 0 1 0 0-12.75 6.375 6.375 0 0 0 0 12.75Z" />
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M12 12.75h.007v.008H12v-.008Z" />
+                    <path d="M11.25 12a.75.75 0 0 1 .75-.75h.008a.75.75 0 0 1 .75.75v.008a.75.75 0 0 1-.75.75h-.008a.75.75 0 0 1-.75-.75v-.008Z" />
+                    <path d="M12.75 12a.75.75 0 0 1 .75-.75h.008a.75.75 0 0 1 .75.75v.008a.75.75 0 0 1-.75.75h-.008a.75.75 0 0 1-.75-.75v-.008Z" />
+                    <path d="M12 12a.75.75 0 0 1 .75-.75h.008a.75.75 0 0 1 .75.75v.008a.75.75 0 0 1-.75.75h-.008a.75.75 0 0 1-.75-.75v-.008Z" />
+                    <path d="M12 21a8.25 8.25 0 1 0 0-16.5 8.25 8.25 0 0 0 0 16.5Z" />
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M12 12.75h.007v.008H12v-.008Z" />
+                </svg>
+                <span class="text-xl font-bold text-blue-800">SMA Cendekia Bangsa</span>
+            </div>
+
+            <!-- Navigasi Desktop -->
+            <nav class="hidden md:flex space-x-8">
+                <a href="#" onclick="showPage('beranda', this)" class="nav-link text-gray-600 hover:text-blue-700 active">Beranda</a>
+                <a href="#" onclick="showPage('profil', this)" class="nav-link text-gray-600 hover:text-blue-700">Profil Sekolah</a>
+                <a href="#" onclick="showPage('visi-misi', this)" class="nav-link text-gray-600 hover:text-blue-700">Visi & Misi</a>
+                <a href="#" onclick="showPage('ekstrakurikuler', this)" class="nav-link text-gray-600 hover:text-blue-700">Ekstrakurikuler</a>
+                <a href="#" onclick="showPage('buletin', this)" class="nav-link text-gray-600 hover:text-blue-700">Buletin</a>
+            </nav>
+
+            <!-- Tombol Pendaftaran -->
+            <a href="#" class="hidden md:block bg-blue-600 text-white px-5 py-2 rounded-full hover:bg-blue-700 font-semibold">PPDB 2025</a>
+            
+            <!-- Tombol Menu Mobile -->
+            <button id="mobile-menu-button" class="md:hidden">
+                <svg class="w-6 h-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5" />
+                </svg>
+            </button>
+        </div>
+
+        <!-- Navigasi Mobile (tersembunyi) -->
+        <div id="mobile-menu" class="hidden md:hidden px-6 pb-4">
+            <a href="#" onclick="showPage('beranda', this); toggleMenu();" class="block py-2 text-gray-600 hover:text-blue-700">Beranda</a>
+            <a href="#" onclick="showPage('profil', this); toggleMenu();" class="block py-2 text-gray-600 hover:text-blue-700">Profil Sekolah</a>
+            <a href="#" onclick="showPage('visi-misi', this); toggleMenu();" class="block py-2 text-gray-600 hover:text-blue-700">Visi & Misi</a>
+            <a href="#" onclick="showPage('ekstrakurikuler', this); toggleMenu();" class="block py-2 text-gray-600 hover:text-blue-700">Ekstrakurikuler</a>
+            <a href="#" onclick="showPage('buletin', this); toggleMenu();" class="block py-2 text-gray-600 hover:text-blue-700">Buletin</a>
+            <a href="#" class="mt-4 block bg-blue-600 text-white px-5 py-2 rounded-full hover:bg-blue-700 font-semibold text-center">PPDB 2025</a>
+        </div>
+    </header>
+
+    <!-- KONTEN UTAMA -->
+    <main class="container mx-auto p-6 md:p-8">
+
+        <!-- ===== HALAMAN BERANDA ===== -->
+        <section id="beranda" class="content-section">
+            <!-- Hero Section -->
+            <div class="bg-blue-600 rounded-2xl text-white p-8 md:p-16 text-center shadow-lg" style="background-image: url('https://placehold.co/1200x400/3B82F6/FFFFFF?text=Gedung+Sekolah'); background-size: cover; background-position: center;">
+                <div class="bg-blue-700 bg-opacity-70 p-8 rounded-xl">
+                    <h1 class="text-4xl md:text-6xl font-extrabold mb-4 animate-fade-in-down">Selamat Datang di SMA Cendekia Bangsa</h1>
+                    <p class="text-lg md:text-xl mb-8 max-w-3xl mx-auto">Membentuk Generasi Unggul, Kreatif, dan Berakhlak Mulia untuk Masa Depan Indonesia.</p>
+                    <button onclick="showPage('profil', document.querySelector('.nav-link[onclick*=\'profil\']'))" class="bg-white text-blue-700 font-bold py-3 px-8 rounded-full hover:bg-gray-100 transform hover:scale-105">
+                        Jelajahi Profil Kami
+                    </button>
+                </div>
+            </div>
+
+            <!-- Sambutan Kepala Sekolah -->
+            <div class="mt-16 grid md:grid-cols-3 gap-8 items-center">
+                <div class="md:col-span-1 flex justify-center">
+                    <img src="https://placehold.co/300x300/E5E7EB/4B5563?text=Foto+Kepala+Sekolah" alt="Foto Kepala Sekolah" class="rounded-full w-48 h-48 md:w-64 md:h-64 object-cover shadow-xl border-4 border-white">
+                </div>
+                <div class="md:col-span-2 text-center md:text-left">
+                    <h2 class="text-3xl font-bold text-gray-800 mb-2">Sambutan Kepala Sekolah</h2>
+                    <p class="text-lg font-semibold text-blue-700 mb-4">Dr. Budi Santoso, M.Pd.</p>
+                    <p class="text-gray-600 leading-relaxed">
+                        "Assalamu'alaikum Warahmatullahi Wabarakatuh. Puji syukur kehadirat Tuhan Yang Maha Esa. Kami bangga mempersembahkan SMA Cendekia Bangsa sebagai lembaga pendidikan yang berkomitmen penuh untuk mencetak lulusan yang tidak hanya cerdas secara akademis, tetapi juga memiliki karakter yang kuat dan siap menghadapi tantangan global. Mari bersama-sama kita wujudkan pendidikan berkualitas."
+                    </p>
+                </div>
+            </div>
+
+            <!-- Keunggulan Sekolah -->
+            <div class="mt-16 text-center">
+                <h2 class="text-3xl font-bold mb-8">Mengapa Memilih Kami?</h2>
+                <div class="grid md:grid-cols-3 gap-8">
+                    <!-- Kartu Keunggulan 1 -->
+                    <div class="bg-white p-8 rounded-xl shadow-lg hover:shadow-2xl transform hover:-translate-y-2">
+                        <div class="bg-blue-100 text-blue-700 rounded-full w-16 h-16 flex items-center justify-center mx-auto mb-4">
+                            <!-- Icon -->
+                            <svg class="w-8 h-8" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M4.26 10.147a60.438 60.438 0 0 0-.491 6.347A48.627 48.627 0 0 1 12 20.904a48.627 48.627 0 0 1 8.232-4.41 60.46 60.46 0 0 0-.491-6.347m-15.482 0a50.57 50.57 0 0 0-2.658-.813A59.906 59.906 0 0 1 12 3.493a59.902 59.902 0 0 1 10.399 5.84c-.896.248-1.783.52-2.658.814m-15.482 0A50.697 50.697 0 0 1 12 13.489a50.702 50.702 0 0 1 7.74-3.342M6.75 15a.75.75 0 1 0 0-1.5.75.75 0 0 0 0 1.5Zm0 0v-3.675A55.378 55.378 0 0 1 12 8.443m-7.007 11.55A5.981 5.981 0 0 0 6.75 15.75v-1.5" /></svg>
+                        </div>
+                        <h3 class="text-xl font-bold mb-2">Akademik Unggul</h3>
+                        <p class="text-gray-600">Kurikulum terdepan yang terintegrasi dengan teknologi untuk mempersiapkan siswa menuju perguruan tinggi terbaik.</p>
+                    </div>
+                    <!-- Kartu Keunggulan 2 -->
+                    <div class="bg-white p-8 rounded-xl shadow-lg hover:shadow-2xl transform hover:-translate-y-2">
+                        <div class="bg-green-100 text-green-700 rounded-full w-16 h-16 flex items-center justify-center mx-auto mb-4">
+                           <!-- Icon -->
+                           <svg class="w-8 h-8" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M18 18.72a9.094 9.094 0 0 0 3.741-.479 3 3 0 0 0-4.682-2.72m-7.5-2.962A3.75 3.75 0 0 1 15 12a3.75 3.75 0 0 1-1.895 3.243m-7.5-2.962A3.75 3.75 0 0 0 9 12a3.75 3.75 0 0 0-1.895 3.243m0 0A2.25 2.25 0 0 1 5.625 15h-.625a3.375 3.375 0 0 0-3.375 3.375V18a2.25 2.25 0 0 0 2.25 2.25h13.5A2.25 2.25 0 0 0 21 18v-1.625c0-1.862-1.513-3.375-3.375-3.375h-.625a2.25 2.25 0 0 1-2.105-1.758M12 3.375a3.375 3.375 0 0 0-3.375 3.375V18a3.375 3.375 0 0 0 6.75 0V6.75A3.375 3.375 0 0 0 12 3.375Z" /></svg>
+                        </div>
+                        <h3 class="text-xl font-bold mb-2">Pengembangan Karakter</h3>
+                        <p class="text-gray-600">Program ekstrakurikuler dan pembinaan karakter untuk membangun pemimpin masa depan yang berintegritas.</p>
+                    </div>
+                    <!-- Kartu Keunggulan 3 -->
+                    <div class="bg-white p-8 rounded-xl shadow-lg hover:shadow-2xl transform hover:-translate-y-2">
+                        <div class="bg-yellow-100 text-yellow-700 rounded-full w-16 h-16 flex items-center justify-center mx-auto mb-4">
+                            <!-- Icon -->
+                            <svg class="w-8 h-8" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M8.25 21v-4.875c0-.621.504-1.125 1.125-1.125h2.25c.621 0 1.125.504 1.125 1.125V21m0 0h4.5V3.545M12.75 21h7.5V10.75M2.25 21h1.5m18 0h-18M2.25 9l4.5-1.636M18.75 3l-1.5.545m0 6.205 3 1m-3-1-3-1m5.25 7.364-3-1M12 21V3" /></svg>
+                        </div>
+                        <h3 class="text-xl font-bold mb-2">Fasilitas Modern</h3>
+                        <p class="text-gray-600">Lingkungan belajar yang nyaman dengan laboratorium, perpustakaan, dan sarana olahraga berstandar tinggi.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ===== HALAMAN PROFIL SEKOLAH ===== -->
+        <section id="profil" class="content-section">
+            <h1 class="text-4xl font-extrabold text-center mb-12 text-gray-800">Profil SMA Cendekia Bangsa</h1>
+            <div class="bg-white rounded-2xl shadow-xl p-8 md:p-12">
+                <div class="grid md:grid-cols-2 gap-12 items-center">
+                    <div>
+                        <img src="https://placehold.co/600x400/E5E7EB/4B5563?text=Galeri+Sekolah" alt="Galeri Sekolah" class="rounded-lg shadow-md w-full">
+                    </div>
+                    <div>
+                        <h2 class="text-2xl font-bold text-blue-700 mb-4">Sejarah Singkat</h2>
+                        <p class="text-gray-600 mb-6 leading-relaxed">
+                            SMA Cendekia Bangsa didirikan pada tahun 2005 atas inisiatif para tokoh pendidikan yang peduli akan pentingnya pendidikan berkualitas. Berawal dari sebuah bangunan sederhana, kini sekolah kami telah berkembang menjadi salah satu lembaga pendidikan menengah atas terkemuka di kota ini, dengan fasilitas modern dan segudang prestasi yang membanggakan.
+                        </p>
+                        <h2 class="text-2xl font-bold text-blue-700 mb-4">Akreditasi & Prestasi</h2>
+                        <p class="text-gray-600 leading-relaxed">
+                            Secara konsisten, SMA Cendekia Bangsa berhasil mempertahankan **Akreditasi "A" (Unggul)** dari Badan Akreditasi Nasional Sekolah/Madrasah (BAN-S/M). Prestasi siswa kami mencakup juara di tingkat nasional dalam Olimpiade Sains, debat Bahasa Inggris, serta kompetisi olahraga.
+                        </p>
+                    </div>
+                </div>
+
+                <div class="mt-12 border-t pt-8">
+                     <h2 class="text-2xl font-bold text-blue-700 mb-6 text-center">Struktur Organisasi & Tenaga Pendidik</h2>
+                     <p class="text-center text-gray-600 max-w-3xl mx-auto">
+                        Kami didukung oleh lebih dari 50 tenaga pendidik profesional yang merupakan lulusan dari berbagai perguruan tinggi ternama. Sebagian besar guru kami telah memiliki sertifikasi pendidik dan gelar magister, memastikan proses belajar mengajar berjalan dengan kualitas tertinggi.
+                     </p>
+                </div>
+            </div>
+        </section>
+
+        <!-- ===== HALAMAN VISI & MISI ===== -->
+        <section id="visi-misi" class="content-section">
+            <h1 class="text-4xl font-extrabold text-center mb-12 text-gray-800">Visi dan Misi Sekolah</h1>
+            <div class="grid md:grid-cols-2 gap-10">
+                <!-- Visi -->
+                <div class="bg-blue-600 text-white rounded-2xl shadow-xl p-8 md:p-12 flex flex-col items-center justify-center text-center">
+                    <h2 class="text-3xl font-bold mb-4">VISI</h2>
+                    <p class="text-xl italic leading-relaxed">
+                        "Menjadi lembaga pendidikan unggul yang menghasilkan lulusan cerdas, kreatif, berkarakter, dan mampu bersaing di tingkat global berlandaskan iman dan takwa."
+                    </p>
+                </div>
+                <!-- Misi -->
+                <div class="bg-white rounded-2xl shadow-xl p-8 md:p-12">
+                    <h2 class="text-3xl font-bold mb-6 text-gray-800">MISI</h2>
+                    <ul class="space-y-4 text-gray-600">
+                        <li class="flex items-start">
+                            <span class="text-blue-600 font-bold mr-3">1.</span>
+                            <span>Menyelenggarakan pendidikan berkualitas yang mengintegrasikan ilmu pengetahuan, teknologi, dan nilai-nilai keimanan.</span>
+                        </li>
+                        <li class="flex items-start">
+                            <span class="text-blue-600 font-bold mr-3">2.</span>
+                            <span>Mengembangkan potensi siswa secara optimal melalui pembelajaran yang inovatif, kreatif, dan menyenangkan.</span>
+                        </li>
+                        <li class="flex items-start">
+                            <span class="text-blue-600 font-bold mr-3">3.</span>
+                            <span>Membentuk karakter siswa yang berakhlak mulia, mandiri, bertanggung jawab, dan memiliki jiwa kepemimpinan.</span>
+                        </li>
+                        <li class="flex items-start">
+                            <span class="text-blue-600 font-bold mr-3">4.</span>
+                            <span>Membekali siswa dengan keterampilan abad ke-21, termasuk berpikir kritis, komunikasi, kolaborasi, dan kreativitas.</span>
+                        </li>
+                        <li class="flex items-start">
+                            <span class="text-blue-600 font-bold mr-3">5.</span>
+                            <span>Menciptakan lingkungan sekolah yang aman, nyaman, dan kondusif untuk proses belajar dan pengembangan diri.</span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <!-- ===== HALAMAN EKSTRAKURIKULER ===== -->
+        <section id="ekstrakurikuler" class="content-section">
+            <h1 class="text-4xl font-extrabold text-center mb-12 text-gray-800">Kegiatan Ekstrakurikuler</h1>
+            <p class="text-center text-lg text-gray-600 max-w-3xl mx-auto mb-12">
+                Kami menyediakan beragam kegiatan ekstrakurikuler untuk menyalurkan minat, bakat, dan kreativitas siswa di luar jam pelajaran akademik.
+            </p>
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
+                <!-- Contoh Ekstrakurikuler -->
+                <div class="bg-white rounded-lg shadow-md p-6 text-center hover:shadow-xl transform hover:-translate-y-1">
+                    <h3 class="text-xl font-bold text-blue-800 mb-2">OSIS & MPK</h3>
+                    <p class="text-gray-600">Wadah bagi siswa untuk belajar berorganisasi, kepemimpinan, dan manajemen acara.</p>
+                </div>
+                <div class="bg-white rounded-lg shadow-md p-6 text-center hover:shadow-xl transform hover:-translate-y-1">
+                    <h3 class="text-xl font-bold text-blue-800 mb-2">Pramuka</h3>
+                    <p class="text-gray-600">Membentuk karakter mandiri, disiplin, dan cinta alam melalui kegiatan kepanduan.</p>
+                </div>
+                <div class="bg-white rounded-lg shadow-md p-6 text-center hover:shadow-xl transform hover:-translate-y-1">
+                    <h3 class="text-xl font-bold text-blue-800 mb-2">Paskibra</h3>
+                    <p class="text-gray-600">Melatih kedisiplinan, kekompakan, dan menumbuhkan jiwa nasionalisme.</p>
+                </div>
+                <div class="bg-white rounded-lg shadow-md p-6 text-center hover:shadow-xl transform hover:-translate-y-1">
+                    <h3 class="text-xl font-bold text-blue-800 mb-2">KIR (Karya Ilmiah Remaja)</h3>
+                    <p class="text-gray-600">Mengembangkan kemampuan riset, analisis, dan berpikir kritis melalui penelitian ilmiah.</p>
+                </div>
+                <div class="bg-white rounded-lg shadow-md p-6 text-center hover:shadow-xl transform hover:-translate-y-1">
+                    <h3 class="text-xl font-bold text-blue-800 mb-2">Klub Olahraga (Futsal, Basket, Voli)</h3>
+                    <p class="text-gray-600">Meningkatkan kesehatan jasmani serta melatih sportivitas dan kerja sama tim.</p>
+                </div>
+                <div class="bg-white rounded-lg shadow-md p-6 text-center hover:shadow-xl transform hover:-translate-y-1">
+                    <h3 class="text-xl font-bold text-blue-800 mb-2">Seni (Musik, Tari, Teater)</h3>
+                    <p class="text-gray-600">Mengeksplorasi bakat seni, meningkatkan kepercayaan diri dan kreativitas siswa.</p>
+                </div>
+                 <div class="bg-white rounded-lg shadow-md p-6 text-center hover:shadow-xl transform hover:-translate-y-1">
+                    <h3 class="text-xl font-bold text-blue-800 mb-2">English Club</h3>
+                    <p class="text-gray-600">Meningkatkan kemampuan berbahasa Inggris melalui debat, pidato, dan diskusi.</p>
+                </div>
+                 <div class="bg-white rounded-lg shadow-md p-6 text-center hover:shadow-xl transform hover:-translate-y-1">
+                    <h3 class="text-xl font-bold text-blue-800 mb-2">Jurnalistik & Fotografi</h3>
+                    <p class="text-gray-600">Mengasah kemampuan menulis, melaporkan berita, dan teknik fotografi modern.</p>
+                </div>
+                 <div class="bg-white rounded-lg shadow-md p-6 text-center hover:shadow-xl transform hover:-translate-y-1">
+                    <h3 class="text-xl font-bold text-blue-800 mb-2">PMR (Palang Merah Remaja)</h3>
+                    <p class="text-gray-600">Membina siswa dalam bidang kemanusiaan, kesehatan, dan pertolongan pertama.</p>
+                </div>
+            </div>
+        </section>
+        
+        <!-- ===== HALAMAN BULETIN SEKOLAH ===== -->
+        <section id="buletin" class="content-section">
+            <h1 class="text-4xl font-extrabold text-center mb-12 text-gray-800">Buletin & Berita Sekolah</h1>
+             <div class="space-y-12">
+                <!-- Artikel 1 -->
+                <div class="grid md:grid-cols-3 gap-8 bg-white p-6 rounded-lg shadow-md hover:shadow-lg">
+                    <img src="https://placehold.co/400x250/34D399/FFFFFF?text=Prestasi" alt="Berita Prestasi" class="rounded-md w-full h-full object-cover">
+                    <div class="md:col-span-2">
+                        <span class="text-sm text-gray-500">2 September 2025</span>
+                        <h2 class="text-2xl font-bold text-gray-800 mt-1 mb-3">Siswa SMA Cendekia Bangsa Raih Medali Emas Olimpiade Sains Nasional</h2>
+                        <p class="text-gray-600 mb-4">Tim olimpiade sekolah kami berhasil membawa pulang medali emas dalam ajang OSN 2025 bidang Fisika. Prestasi ini merupakan buah dari kerja keras dan bimbingan intensif dari para guru.</p>
+                        <a href="#" class="text-blue-600 font-semibold hover:underline">Baca Selengkapnya &rarr;</a>
+                    </div>
+                </div>
+                <!-- Artikel 2 -->
+                <div class="grid md:grid-cols-3 gap-8 bg-white p-6 rounded-lg shadow-md hover:shadow-lg">
+                    <img src="https://placehold.co/400x250/FBBF24/FFFFFF?text=Kegiatan+Sosial" alt="Kegiatan Sosial" class="rounded-md w-full h-full object-cover">
+                    <div class="md:col-span-2">
+                        <span class="text-sm text-gray-500">28 Agustus 2025</span>
+                        <h2 class="text-2xl font-bold text-gray-800 mt-1 mb-3">Kegiatan Bakti Sosial Tahunan Sukses Digelar di Desa Sukamaju</h2>
+                        <p class="text-gray-600 mb-4">OSIS SMA Cendekia Bangsa kembali mengadakan kegiatan bakti sosial yang meliputi pembagian sembako, pemeriksaan kesehatan gratis, dan mengajar di sekolah dasar setempat.</p>
+                        <a href="#" class="text-blue-600 font-semibold hover:underline">Baca Selengkapnya &rarr;</a>
+                    </div>
+                </div>
+                <!-- Artikel 3 -->
+                <div class="grid md:grid-cols-3 gap-8 bg-white p-6 rounded-lg shadow-md hover:shadow-lg">
+                    <img src="https://placehold.co/400x250/60A5FA/FFFFFF?text=Workshop" alt="Workshop Teknologi" class="rounded-md w-full h-full object-cover">
+                    <div class="md:col-span-2">
+                        <span class="text-sm text-gray-500">15 Agustus 2025</span>
+                        <h2 class="text-2xl font-bold text-gray-800 mt-1 mb-3">Workshop Coding dan Robotika Persiapkan Siswa Hadapi Era Digital</h2>
+                        <p class="text-gray-600 mb-4">Bekerja sama dengan praktisi industri, sekolah mengadakan workshop intensif selama dua hari untuk memperkenalkan siswa pada dasar-dasar pemrograman dan teknologi robotika terkini.</p>
+                        <a href="#" class="text-blue-600 font-semibold hover:underline">Baca Selengkapnya &rarr;</a>
+                    </div>
+                </div>
+             </div>
+        </section>
+
+    </main>
+
+    <!-- FOOTER -->
+    <footer class="bg-gray-800 text-white mt-16">
+        <div class="container mx-auto px-6 py-12">
+            <div class="grid md:grid-cols-3 gap-8">
+                <!-- Tentang Kami -->
+                <div>
+                    <h3 class="text-lg font-bold mb-4">SMA Cendekia Bangsa</h3>
+                    <p class="text-gray-400">Jl. Pendidikan No. 123, Kota Harapan, Indonesia 54321</p>
+                    <p class="text-gray-400 mt-2">Telepon: (021) 123-4567</p>
+                    <p class="text-gray-400">Email: info@smacendekiabangsa.sch.id</p>
+                </div>
+                <!-- Link Cepat -->
+                <div>
+                    <h3 class="text-lg font-bold mb-4">Tautan Cepat</h3>
+                    <ul class="space-y-2">
+                        <li><a href="#" onclick="showPage('profil', document.querySelector('.nav-link[onclick*=\'profil\']'))" class="text-gray-400 hover:text-white">Profil Sekolah</a></li>
+                        <li><a href="#" onclick="showPage('visi-misi', document.querySelector('.nav-link[onclick*=\'visi-misi\']'))" class="text-gray-400 hover:text-white">Visi & Misi</a></li>
+                        <li><a href="#" onclick="showPage('ekstrakurikuler', document.querySelector('.nav-link[onclick*=\'ekstrakurikuler\']'))" class="text-gray-400 hover:text-white">Ekstrakurikuler</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-white">Penerimaan Siswa Baru</a></li>
+                    </ul>
+                </div>
+                <!-- Media Sosial -->
+                <div>
+                    <h3 class="text-lg font-bold mb-4">Terhubung Dengan Kami</h3>
+                    <div class="flex space-x-4">
+                        <a href="#" class="text-gray-400 hover:text-white"><svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24"><path d="M22.675 0h-21.35C.59 0 0 .59 0 1.325v21.351C0 23.41.59 24 1.325 24H12.82v-9.294H9.692v-3.622h3.128V8.413c0-3.1 1.893-4.788 4.659-4.788 1.325 0 2.463.099 2.795.143v3.24l-1.918.001c-1.504 0-1.795.715-1.795 1.763v2.313h3.587l-.467 3.622h-3.12V24h6.116c.735 0 1.325-.59 1.325-1.325V1.325C24 .59 23.41 0 22.675 0z"/></svg></a>
+                        <a href="#" class="text-gray-400 hover:text-white"><svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.85s-.011 3.584-.069 4.85c-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07s-3.584-.012-4.85-.07c-3.252-.148-4.771-1.691-4.919-4.919-.058-1.265-.069-1.645-.069-4.85s.011-3.584.069-4.85c.149-3.225 1.664-4.771 4.919-4.919 1.266-.058 1.644-.07 4.85-.07zm0-2.163C8.74 0 8.333.012 7.053.072 2.695.272.273 2.69.073 7.052.012 8.333 0 8.74 0 12s.012 3.667.072 4.947c.2 4.358 2.618 6.78 6.98 6.98C8.333 23.988 8.74 24 12 24s3.667-.012 4.947-.072c4.354-.2 6.782-2.618 6.979-6.98.06-1.28.072-1.687.072-4.947s-.012-3.667-.072-4.947c-.196-4.354-2.617-6.78-6.979-6.98C15.667.012 15.26 0 12 0zm0 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.88 1.44 1.44 0 000-2.88z"/></svg></a>
+                        <a href="#" class="text-gray-400 hover:text-white"><svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24"><path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/></svg></a>
+                    </div>
+                </div>
+            </div>
+            <div class="mt-8 border-t border-gray-700 pt-6 text-center text-gray-400 text-sm">
+                <p>&copy; 2025 SMA Cendekia Bangsa. Seluruh hak cipta dilindungi.</p>
+            </div>
+        </div>
+    </footer>
+
+
+    <script>
+        // --- FUNGSI UNTUK NAVIGASI SPA (Single Page Application) ---
+        function showPage(pageId, element) {
+            // Sembunyikan semua section konten
+            const contentSections = document.querySelectorAll('.content-section');
+            contentSections.forEach(section => {
+                section.style.display = 'none';
+            });
+
+            // Tampilkan section yang dipilih
+            const activePage = document.getElementById(pageId);
+            if (activePage) {
+                activePage.style.display = 'block';
+            }
+
+            // Atur styling link navigasi yang aktif
+            const navLinks = document.querySelectorAll('.nav-link');
+            navLinks.forEach(link => {
+                link.classList.remove('active');
+            });
+            if(element) {
+               element.classList.add('active');
+            }
+            
+            // Scroll ke atas halaman
+            window.scrollTo(0, 0);
+        }
+
+        // --- FUNGSI UNTUK MENU MOBILE ---
+        const mobileMenuButton = document.getElementById('mobile-menu-button');
+        const mobileMenu = document.getElementById('mobile-menu');
+
+        function toggleMenu() {
+            mobileMenu.classList.toggle('hidden');
+        }
+        
+        mobileMenuButton.addEventListener('click', toggleMenu);
+
+        // --- TAMPILKAN HALAMAN BERANDA SAAT PERTAMA KALI DIBUKA ---
+        document.addEventListener('DOMContentLoaded', () => {
+            showPage('beranda', document.querySelector('.nav-link[onclick*=\'beranda\']'));
+        });
+    </script>
+</body>
+</html>
